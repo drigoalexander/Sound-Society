@@ -2,7 +2,7 @@
   <div>
     <header class="w-full py-2 px-10 flex items-center justify-between">
       <svg
-        class="size-36"
+        class="size-16 md:size-36"
         width="315"
         height="70"
         viewBox="0 0 315 70"
@@ -15,7 +15,26 @@
         />
       </svg>
 
-      <span v-if="user">Hi, {{ user.user_metadata.name }} 👋</span>
+      <UPopover v-if="user" :popper="{ placement: 'bottom-start' }">
+        <span class="text-[clamp(0.5rem,1vw+0.5rem,1rem)]"
+          >Hi, {{ user.user_metadata.name }} 👋</span
+        >
+
+        <template #panel>
+          <button
+            @click="
+              toast.add({
+                title: `Logging Out, Bye ${user.user_metadata.name} 👋`,
+                timeout: 2000,
+                callback: logOut,
+              })
+            "
+            class="px-3 py-2 w-full flex items-start bg-black"
+          >
+            Log out from here
+          </button>
+        </template>
+      </UPopover>
       <UButton
         v-else
         size="xl"
@@ -23,10 +42,7 @@
         variant="solid"
         @click="loginWithSpotify()"
       >
-        <UIcon
-          name="i-logos-spotify-icon"
-          dynamic
-        />
+        <UIcon name="i-logos-spotify-icon" dynamic />
         Login in with spotify
       </UButton>
     </header>
@@ -36,6 +52,7 @@
 <script setup lang="ts">
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
+const toast = useToast();
 
 async function loginWithSpotify() {
   await supabase.auth.signInWithOAuth({
@@ -45,5 +62,9 @@ async function loginWithSpotify() {
       redirectTo: "http://localhost:3000/callback",
     },
   });
+}
+
+async function logOut() {
+  await supabase.auth.signOut();
 }
 </script>

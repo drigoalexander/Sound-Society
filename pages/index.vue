@@ -10,7 +10,7 @@
 
     <div
       style="font-family: 'Roboto Condensed', sans-serif"
-      class="font-semibold w-[120%] -translate-x-[8rem] mx-auto py-4 whitespace-nowrap uppercase bg-[#f93b21] rotate-[-2deg]"
+      class="font-semibold w-[120%] -translate-x-[4rem] md:-translate-x-[8rem] mx-auto py-4 whitespace-nowrap uppercase bg-[#f93b21] rotate-[-2deg]"
     >
       <span
         id="running-text"
@@ -22,7 +22,9 @@
       </span>
     </div>
 
-    <section class="mt-16 flex flex-col gap-32 w-full mx-auto">
+    <section
+      class="mt-16 flex flex-col gap-32 w-full justify-center items-center"
+    >
       <div class="w-full max-w-xl mx-auto text-center">
         <h4
           class="text-[clamp(1.125rem,4vw+1rem,3rem)] font-semibold tracking-tight capitalize leading-none"
@@ -37,13 +39,49 @@
           by song.
         </p>
       </div>
-      <MusicCard />
+
+      <div
+        class="flex flex-col w-fit gap-4 items-center justify-center divide-y-[1px] divide-gray-500"
+      >
+        <GridList
+          class="p-8"
+          :col="columns"
+          :row="rows"
+          :days="days"
+          :year="selectedYear"
+        />
+        <div class="flex flex-col gap-16 pt-16 w-full p-8">
+          <h5 class="text-[clamp(1.125rem,4vw+1rem,1.5rem)]">
+            Today, You're grooving to 🎧
+          </h5>
+
+          <div class="flex flex-col h-64 overflow-y-scroll w-full">
+            <SongCard v-for="(el, idx) in listSong" :song-list="el" />
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-const user = useSupabaseUser();
+const selectedYear = ref(2024);
+
+const listSong = ref([
+  {
+    artist: "Ed Sheeran",
+    songTitle: "Photograph",
+    albumCover: "https://source.unsplash.com/UToSNH3bKP4",
+    genre: "Pop",
+  },
+  {
+    artist: "Ed Sheeran",
+    songTitle: "Hearts Don't Break Around Here",
+    albumCover: "https://source.unsplash.com/Z5mzhMcFybs",
+    genre: "Pop",
+  },
+]);
+
 onMounted(() => {
   const runningText = document.getElementById("running-text");
 
@@ -58,4 +96,6 @@ onMounted(() => {
     }
   );
 });
+
+const { columns, rows, days } = totalYear(2024);
 </script>

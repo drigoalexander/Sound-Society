@@ -1,7 +1,7 @@
 <template>
-  <div class="flex gap-6 items-center w-full max-w-xl">
+  <div class="flex gap-6 items-center w-full">
     <div
-      class="relative w-full h-64 bg-white rounded-lg shadow-lg overflow-hidde mb-24"
+      class="relative w-full h-52 bg-white rounded-lg shadow-lg overflow-hidden mb-24"
     >
       <div class="absolute inset-0 rounded-lg overflow-hidden bg-red-200">
         <img

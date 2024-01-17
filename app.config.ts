@@ -3,5 +3,8 @@ export default defineAppConfig({
     icons: {
       dynamic: true,
     },
+    notifications: {
+      position: "top-auato bottom-0",
+    },
   },
 });
